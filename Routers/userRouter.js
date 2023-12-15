@@ -37,7 +37,7 @@ router.post('/login', async (req, res) => {
         if (!validPassword) {
             return res.status(400).json({ message: "  password not valid :(  " });
         }
-        var userToken = jwt.sign({ email: userData.email, name: userData.name }, 'periyaRagasiyam');
+        var userToken = jwt.sign({ email: userData.email, name: userData.name, id: userData._id }, 'periyaRagasiyam');
         res.header('auth', userToken).json({ message: 'Login successful :)', data: userToken });
     } catch (error) {
         res.status(500).json(error);
@@ -49,6 +49,29 @@ const validUser = (req, res, next) => {
     req.token = token
     next();
 }
+
+router.get('/getUserData', validUser, async (req, res) => {
+    jwt.verify(req.token, 'periyaRagasiyam', async (err, data) => {
+        if (err) {
+            res.sendStatus(403);
+        } else {
+            try {
+                console.log(data);
+                const userId = data.id;
+                const user = await userModel.findById(userId);
+
+                if (!user) {
+                    res.status(404).json({ message: 'User not found' });
+                } else {
+                    res.status(200).json(user);
+                }
+            } catch (error) {
+                res.status(500).json(error);
+            }
+        }
+    });
+});
+
 
 router.get('/getAll', validUser, async (req, res) => {
 
