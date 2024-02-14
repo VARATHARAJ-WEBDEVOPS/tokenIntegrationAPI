@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(morgan('dev'));
 app.use('/api', userRoute);
 app.post('/api/login', (req, res) => {
-  res.redirect('https://nproject-190cc.web.app/userdashboard')
+  res.redirect('https://clothingboutiques-98562.web.app/userdashboard')
 });
 
 app.get('/', (req, res) => {
