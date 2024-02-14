@@ -16,6 +16,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan('dev'));
 app.use('/api', userRoute);
+app.post('/api/login', (req, res) => {
+  res.redirect('https://nproject-190cc.web.app/userdashboard')
+});
 
 app.get('/', (req, res) => {
     res.send('This is Vasanth Node Js API');
